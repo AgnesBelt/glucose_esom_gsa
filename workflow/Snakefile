@@ -16,8 +16,18 @@ container: "docker://condaforge/mambaforge:4.10.1-0"
 SCENARIOS = pd.read_csv(config["scenarios"]).set_index('name')
 GROUPS = pd.read_csv(config['parameters'])['group'].unique()
 
+PARAMETERS = pd.read_csv(config['parameters'])['indexes'].unique()
+
+METHOD = config['method']
+
 # Calculates number of model runs for the Method of Morris
-MODELRUNS = range((len(GROUPS) + 1) * config['replicates'])
+if METHOD == 'Morris':
+    MODELRUNS = range((len(GROUPS) + 1) * config['replicates'])
+if METHOD == 'LHS':
+    MODELRUNS = range(config['replicates'] * (len(PARAMETERS) + 2))
+if METHOD == 'Sobol':
+    MODELRUNS = range(config['replicates'])
+
 RESULTS = pd.read_csv(config["results"])
 RESULT_FILES = RESULTS['filename'].to_list()
 ZIP = '.gz' if config['zip'] else ''
