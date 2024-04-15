@@ -24,9 +24,9 @@ METHOD = config['method']
 if METHOD == 'Morris':
     MODELRUNS = range((len(GROUPS) + 1) * config['replicates'])
 if METHOD == 'LHS':
-    MODELRUNS = range(config['replicates'] * (len(PARAMETERS) + 2))
-if METHOD == 'Sobol':
     MODELRUNS = range(config['replicates'])
+if METHOD == 'Sobol':
+    MODELRUNS = range(config['replicates'] * (len(PARAMETERS) + 2))
 
 RESULTS = pd.read_csv(config["results"])
 RESULT_FILES = RESULTS['filename'].to_list()
