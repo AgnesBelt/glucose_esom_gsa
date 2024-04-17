@@ -7,6 +7,8 @@ rule create_sample:
     conda: "../envs/sample.yaml"
     log: "results/log/create_{scenario}_sample.log"
     shell:
+       #  "python workflow/scripts/create_sample_LHS.py {params.parameters} {output} {params.replicates}"
+       #  try also with else at the end
         """
         if [ {config[method]} = Morris ]
         then
@@ -16,9 +18,10 @@ rule create_sample:
         then
             python workflow/scripts/create_sample_LHS.py {params.parameters} {output} {params.replicates}
 
-        elif [ {config[method]} = Sobol ]
+        elif [ {config[method]} = Sobol ] 
         then
             python workflow/scripts/create_sample_Sobol.py {params.parameters} {output} {params.replicates}
+        fi
         """
 
 rule expand_sample:
