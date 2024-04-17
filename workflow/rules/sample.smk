@@ -22,7 +22,7 @@ rule create_sample:
 rule expand_sample:
     params:
         parameters=config['parameters']
-    input: "modelruns/{scenario}/morris_sample.txt"
+    input: "modelruns/{scenario}/sample.txt"
     output: expand("modelruns/{{scenario}}/model_{model_run}/sample_{model_run}.txt", model_run=MODELRUNS)
     conda: "../envs/sample.yaml"
     log: "results/log/expand_{scenario}_sample.log"
@@ -33,7 +33,7 @@ rule scale_sample:
     params:
         parameters=config['parameters']
     input:
-        "modelruns/{scenario}/morris_sample.txt"
+        "modelruns/{scenario}/sample.txt"
     output:
         "modelruns/{scenario}/morris_sample_scaled.txt"
     conda: "../envs/sample.yaml"
