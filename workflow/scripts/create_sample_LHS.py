@@ -37,6 +37,11 @@ from logging import getLogger
 logger = getLogger(__name__)
 
 def main(parameters: dict, sample_file: str, replicates: int):
+    """
+    Argumet
+    -------
+    sample_file is the path where the sample file is saved
+    """
 
     problem = utils.create_salib_problem(parameters)
 
