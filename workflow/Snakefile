@@ -1,5 +1,6 @@
 import pandas as pd
 import sys
+import os
 from typing import List 
 from yaml import load
 from otoole.utils import UniqueKeyLoader
@@ -26,7 +27,7 @@ if METHOD == 'Morris':
 elif METHOD == 'LHS':
     MODELRUNS = range(config['replicates'])
 elif METHOD == 'Sobol':
-    MODELRUNS = (range(config['replicates']**2) * (len(PARAMETERS) + 2))
+    MODELRUNS = range((config['replicates']**2) * (len(PARAMETERS) + 2))
 
 RESULTS = pd.read_csv(config["results"])
 RESULT_FILES = RESULTS['filename'].to_list()

@@ -42,7 +42,7 @@ def main(parameters: dict, sample_file: str, replicates: int):
 
     sample = morris.sample(problem, N=100, optimal_trajectories=replicates,
                            local_optimization=True, seed=42)
-
+    
     np.savetxt(sample_file, sample, delimiter=',')
 
 

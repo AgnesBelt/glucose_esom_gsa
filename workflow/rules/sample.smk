@@ -11,9 +11,11 @@ rule create_sample:
         if [ {config[method]} = Morris ]
         then
             python workflow/scripts/create_sample.py {params.parameters} {output} {params.replicates}
+        
         elif [ {config[method]} = LHS ]
         then
             python workflow/scripts/create_sample_LHS.py {params.parameters} {output} {params.replicates}
+
         elif [ {config[method]} = Sobol ]
         then
             python workflow/scripts/create_sample_Sobol.py {params.parameters} {output} {params.replicates}
