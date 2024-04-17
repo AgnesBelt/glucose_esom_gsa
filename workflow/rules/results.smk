@@ -5,9 +5,9 @@ def get_input(wildcards):
 
 def get_sample_name(wildcards):
     if config['scale']:
-        return f"modelruns/{wildcards.scenario}/morris_sample_scaled.txt"
+        return f"modelruns/{wildcards.scenario}/sample_scaled.txt"
     else: 
-        return f"modelruns/{wildcards.scenario}/morris_sample.txt"
+        return f"modelruns/{wildcards.scenario}/sample.txt"
         
 def get_indices(wildcards):
     indices = RESULTS.set_index('filename').loc[wildcards.result_file].dropna().drop('resultfile').to_dict()
@@ -74,7 +74,7 @@ rule create_heatmap:
         parameters=config['parameters'],
         scaled = config['scale']
     input:
-        sample="modelruns/{scenario}/morris_sample.txt",
+        sample="modelruns/{scenario}/sample.txt",
         results=expand("results/{{scenario}}/{{result_file}}.{ext}", ext=config['filetype'])
     output:
         "results/{scenario}_summary/{result_file}_heatmap.png"
@@ -88,7 +88,7 @@ rule plot_interactions:
     params:
         parameters=config['parameters']
     input:
-        sample = "modelruns/{scenario}/morris_sample.txt",
+        sample = "modelruns/{scenario}/sample.txt",
         results = "results/{scenario}/objective_{scenario}.csv"
     output:
         "results/{scenario}_summary/SA_interactions.png"
