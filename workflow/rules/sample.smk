@@ -7,8 +7,6 @@ rule create_sample:
     conda: "../envs/sample.yaml"
     log: "results/log/create_{scenario}_sample.log"
     shell:
-       #  "python workflow/scripts/create_sample_LHS.py {params.parameters} {output} {params.replicates}"
-       #  try also with else at the end
         """
         if [ {config[method]} = Morris ]
         then
