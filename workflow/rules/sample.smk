@@ -3,7 +3,7 @@ rule create_sample:
     params:
         replicates=config['replicates'],
         parameters=config['parameters']
-    output: "modelruns/{scenario}/morris_sample.txt"
+    output: "modelruns/{scenario}/sample.txt"
     conda: "../envs/sample.yaml"
     log: "results/log/create_{scenario}_sample.log"
     shell:
