@@ -20,12 +20,12 @@ PARAMETERS = pd.read_csv(config['parameters'])['indexes'].unique()
 
 METHOD = config['method']
 
-# Calculates number of model runs for the Method of Morris
+# Calculates number of model runs for the method of choice
 if METHOD == 'Morris':
     MODELRUNS = range((len(GROUPS) + 1) * config['replicates'])
-if METHOD == 'LHS':
+elif METHOD == 'LHS':
     MODELRUNS = range(config['replicates'])
-if METHOD == 'Sobol':
+elif METHOD == 'Sobol':
     MODELRUNS = (range(config['replicates']**2) * (len(PARAMETERS) + 2))
 
 RESULTS = pd.read_csv(config["results"])
