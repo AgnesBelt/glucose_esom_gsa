@@ -42,8 +42,8 @@ def assign_sample_value(min_value, max_value, sample):
     points = [0, 1]
     return np.interp(sample, points, values)
 
-def main(morris_sample, parameters, output_files):
-    for model_run, sample_row in enumerate(morris_sample):
+def main(sample, parameters, output_files):
+    for model_run, sample_row in enumerate(sample):
         filepath = output_files[model_run]
         with open(filepath, 'w') as csvfile:
 
@@ -98,5 +98,5 @@ if __name__ == "__main__":
     output_files = sys.argv[3:]
     with open(parameters_file, 'r') as csv_file:
         parameter_list = list(csv.DictReader(csv_file))
-    morris_sample = np.loadtxt(sample_file, delimiter=",")
-    main(morris_sample, parameter_list, output_files)
+    sample = np.loadtxt(sample_file, delimiter=",")
+    main(sample, parameter_list, output_files)
