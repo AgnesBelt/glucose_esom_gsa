@@ -19,10 +19,10 @@ model_file: resources/glucose/osemosys_fast.txt
 # Choose a solver, choices: 'cbc' or 'gurobi' or 'cplex'
 solver: cbc
 
-# Choose a sampling method: 'Morris' or 'LHS' or 'Sobol'
+# Choose a sampling method: 'Morris' or 'LHS' or 'Sobol' 
 method: LHS
 
-# Sampling - how large should the sample be?
+# Sampling - how large should the sample be? [NB: for Sobol, the nr of replicates will result in (replicates^2) nr of runs]
 replicates: 10
 
 # Scale Elementary Effects (True/False)
