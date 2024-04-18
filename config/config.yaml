@@ -13,17 +13,21 @@ filetype: csv
 # Define the uncertain parameters used to define the Monte Carlo sample
 parameters: resources/glucose/parameters_glucose.csv
 
+# Define a start year for interpolation of the parameters
+start_year: 2020
+
 # Path to the OSeMOSYS model file
 model_file: resources/glucose/osemosys_fast.txt
 
 # Choose a solver, choices: 'cbc' or 'gurobi' or 'cplex'
 solver: cbc
 
-# Choose a sampling method: 'Morris' or 'LHS' or 'Sobol' 
+# Choose a sampling method: 'Morris' or 'LHS' or 'Sobol'
 method: LHS
 
-# Sampling - how large should the sample be? [NB: for Sobol, the nr of replicates will result in (replicates^2) nr of runs]
-replicates: 10
+# Sampling - how large should the sample be? 
+# [NB: for Sobol, the nr of replicates will result in (replicates^2) nr of runs]
+replicates: 2
 
 # Scale Elementary Effects (True/False)
 scale: False
