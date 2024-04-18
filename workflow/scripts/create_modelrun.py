@@ -198,6 +198,8 @@ def apply_interploted_values(
     model_params : Dict[str, pd.DataFrame],
     index : Tuple,
     interpolated_values : list, 
+    first_year: int,
+    end_year: int
 ) -> Dict[str, pd.DataFrame]:
     """Applies interpolated values that ARE NOT index over a set. 
 
@@ -222,8 +224,9 @@ def apply_interploted_values(
     ValueError
         If index not found in original dataframe 
     """
+
     try:
-        model_params[name].loc[tuple(index), 'VALUE'] = interpolated_values[0]
+        model_params[name].loc[tuple(index + [first_year]):tuple(index + [end_year]), 'VALUE'] = interpolated_values[0]
     except ValueError as ex:
         logger.error(f"Error raised in parameter {name} by index {index}")
         raise ValueError(ex)
@@ -287,7 +290,7 @@ def modify_parameters(
             model_params = apply_yearly_interploted_values(name, model_params, index,
                 new_values, first_year, end_year)
         else:
-            model_params = apply_interploted_values(name, model_params, index, new_values)
+            model_params = apply_interploted_values(name, model_params, index, new_values, first_year, end_year)
 
     return model_params
 
