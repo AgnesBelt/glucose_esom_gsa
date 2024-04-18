@@ -39,7 +39,7 @@ rule calculate_hourly_generation:
 
 rule calculate_SA_objective:
     message:
-        "Calcualting objective cost sensitivity measures"
+        "Calculating objective cost sensitivity measures"
     params: 
         parameters=config['parameters'],
         result_type='objective',
