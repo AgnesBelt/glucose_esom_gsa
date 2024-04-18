@@ -232,7 +232,8 @@ def apply_interploted_values(
 def modify_parameters(
         model_params: Dict[str, pd.DataFrame],
         parameters: List[Dict[str, Union[str, int, float]]],
-        config: Dict) ->  Dict[str, pd.DataFrame]:
+        config: Dict,
+        start_year_interp: int) ->  Dict[str, pd.DataFrame]:
     """Modifies model parameters based on Morris Sample. 
 
     The action and interpolation method are read in from the parameters argument
@@ -262,7 +263,7 @@ def modify_parameters(
         Parameter with properly typed value
     """
 
-    first_year = model_params['YEAR'].min().values[0]
+    first_year = start_year_interp # model_params['YEAR'].min().values[0]
     end_year = model_params['YEAR'].max().values[0]
 
     for parameter in parameters:
@@ -294,7 +295,8 @@ def main(
     input_filepath, 
     output_filepath, 
     parameters: List[Dict[str, Union[str, int, float]]],
-    user_config):
+    user_config,
+    start_year_interp):
 
     model_params, default_values = ReadCsv(user_config=user_config).read(input_filepath)
 
@@ -302,14 +304,14 @@ def main(
     for name, parameter in model_params.items():
         parameter = parameter.sort_index()
         model_params[name] = parameter
-    model_params = modify_parameters(model_params, parameters, user_config)
+    model_params = modify_parameters(model_params, parameters, user_config, start_year_interp)
     WriteCsv(user_config=user_config).write(model_params, output_filepath, default_values)
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 5:
-        print("Usage: python create_modelrun.py <input_filepath> <output_filepath> <sample_filepath> <user_config>")
+    if len(sys.argv) != 6:
+        print("Usage: python create_modelrun.py <input_filepath> <output_filepath> <sample_filepath> <user_config> <start_year_interp>")
     else:
         with open(sys.argv[3], 'r') as csv_file:
             sample = list(csv.DictReader(csv_file))
@@ -318,4 +320,4 @@ if __name__ == "__main__":
         with open(sys.argv[4], "r") as f:
             user_config = _read_file(f, ending)
 
-        main(sys.argv[1], sys.argv[2], sample, user_config)
+        main(sys.argv[1], sys.argv[2], sample, user_config, sys.argv[5])
