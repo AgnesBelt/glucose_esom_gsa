@@ -23,7 +23,7 @@ model_file: resources/glucose/osemosys_fast.txt
 solver: cbc
 
 # Choose a sampling method: 'Morris' or 'LHS' or 'Sobol'
-method: LHS
+method: Sobol
 
 # Sampling - how large should the sample be? 
 # [NB: for Sobol, the nr of replicates will result in (replicates^2) nr of runs]
