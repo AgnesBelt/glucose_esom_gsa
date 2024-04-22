@@ -211,12 +211,22 @@ def check_parameter_index_data(
                 f"include {param_index}"
             )
 
-    if len(config_indices) != len(param_index):
-        raise ValueError(
-            f"The indices provided for {param['name']} of {param_index} do "
-            f"not correspond to the following indices specified in the "
-            f"csv data: {config_indices}"
-        )
+    if 'YEAR' in config_indices:
+        if len(config_indices) == len(param_index)+1:
+            config_indices.remove('YEAR')
+        else:
+            raise ValueError(
+                f"The indices provided for {param['name']} of {param_index} do "
+                f"not correspond to the following indices specified in the "
+                f"csv data: {config_indices}"
+            )
+    else:
+        if len(config_indices) != len(param_index):
+            raise ValueError(
+                f"The indices provided for {param['name']} of {param_index} do "
+                f"not correspond to the following indices specified in the "
+                f"csv data: {config_indices}"
+            )
 
     for num, index in enumerate(config_indices):
         param_data = param_index[num]
