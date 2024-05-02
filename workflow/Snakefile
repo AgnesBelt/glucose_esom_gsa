@@ -17,7 +17,9 @@ container: "docker://condaforge/mambaforge:4.10.1-0"
 SCENARIOS = pd.read_csv(config["scenarios"]).set_index('name')
 GROUPS = pd.read_csv(config['parameters'])['group'].unique()
 
-PARAMETERS = pd.read_csv(config['parameters'])['indexes'].unique()
+PARAMETERS = pd.read_csv(config['parameters'])['indexes'].to_numpy()
+print(PARAMETERS)
+print(len(PARAMETERS))
 
 METHOD = config['method']
 
