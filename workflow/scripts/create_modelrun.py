@@ -322,4 +322,4 @@ if __name__ == "__main__":
         with open(sys.argv[4], "r") as f:
             user_config = _read_file(f, ending)
 
-        main(sys.argv[1], sys.argv[2], sample, user_config, sys.argv[5])
+        main(sys.argv[1], sys.argv[2], sample, user_config, int(sys.argv[5]))

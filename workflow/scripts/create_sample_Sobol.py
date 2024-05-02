@@ -40,7 +40,7 @@ def main(parameters: dict, sample_file: str, replicates: int):
 
     problem = utils.create_salib_problem(parameters)
 
-    sample = sobol.sample(problem, N=(replicates**2), calc_second_order=False, seed=42)
+    sample = sobol.sample(problem, N=(2**replicates), calc_second_order=False, seed=42)
 
     np.savetxt(sample_file, sample, delimiter=',')
 
