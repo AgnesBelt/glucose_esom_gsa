@@ -26,7 +26,7 @@ solver: cbc
 method: Sobol
 
 # Sampling - how large should the sample be? 
-# [NB: for Sobol, the nr of replicates will result in (replicates^2) nr of runs]
+# [NB: for Sobol, the nr of replicates will result in (2^replicates) nr of runs]
 replicates: 2
 
 # Scale Elementary Effects (True/False)
