@@ -41,7 +41,6 @@ def process_data(
                  start_year_value: float,
                  end_year_value: float,
                  first_year: int,
-                 last_year_mid: int,
                  last_year: int
                  ) -> np.array:
     """Interpolate data between min and max years
@@ -62,13 +61,9 @@ def process_data(
     values: np.array
         Linearlly interpolated values between the start and end year. 
     """
-    values1 = np.interp([range(int(first_year), int(last_year_mid)+1)],
-                       np.array([int(first_year), int(last_year_mid)]),
+    values = np.interp([range(int(first_year), int(last_year) + 1)],
+                       np.array([int(first_year), int(last_year)]),
                        np.array([float(start_year_value), float(end_year_value)])).T
-    values2 = np.interp([range(int(last_year_mid)+1, int(last_year)+1)],
-                       np.array([int(last_year_mid), int(last_year)]),
-                       np.array([float(end_year_value), float(end_year_value)])).T
-    values = np.concatenate((values1, values2), axis=0)
     return values
 
 
@@ -110,7 +105,6 @@ def apply_interpolation_action(
     start_year_value : float = None, 
     end_year_value : Optional[float] = None,
     first_year : Optional[int] = None,
-    end_year_mid : Optional[int] = None,
     end_year : Optional[int] = None
 ) -> Any:
     """Applies the interploation method. 
@@ -143,7 +137,7 @@ def apply_interpolation_action(
         If `inter_index` is not `None` or `YEAR`
     """
     if action == 'interpolate':
-        new_values = process_data(start_year_value, end_year_value, first_year, end_year_mid, end_year)
+        new_values = process_data(start_year_value, end_year_value, first_year, end_year)
     elif action == 'fixed':
         if not inter_index: # None
             new_values = [start_year_value]
@@ -241,8 +235,7 @@ def modify_parameters(
         model_params: Dict[str, pd.DataFrame],
         parameters: List[Dict[str, Union[str, int, float]]],
         config: Dict,
-        start_year_interp: int,
-        end_year_interp: int) ->  Dict[str, pd.DataFrame]:
+        start_year_interp: int) ->  Dict[str, pd.DataFrame]:
     """Modifies model parameters based on Morris Sample. 
 
     The action and interpolation method are read in from the parameters argument
@@ -273,7 +266,6 @@ def modify_parameters(
     """
 
     first_year = start_year_interp # model_params['YEAR'].min().values[0]
-    end_year_mid = end_year_interp
     end_year = model_params['YEAR'].max().values[0]
 
     for parameter in parameters:
@@ -289,7 +281,7 @@ def modify_parameters(
 
         # retrieve interpolated values
         new_values = apply_interpolation_action(action, inter_index, start_year_value,
-            end_year_value, first_year, end_year_mid, end_year)
+            end_year_value, first_year, end_year)
 
         # apply interpolated values
         logger.info("Updating values for {} in {}".format(index, name))
@@ -306,8 +298,7 @@ def main(
     output_filepath, 
     parameters: List[Dict[str, Union[str, int, float]]],
     user_config,
-    start_year_interp, 
-    end_year_interp):
+    start_year_interp):
 
     model_params, default_values = ReadCsv(user_config=user_config).read(input_filepath)
 
@@ -315,14 +306,14 @@ def main(
     for name, parameter in model_params.items():
         parameter = parameter.sort_index()
         model_params[name] = parameter
-    model_params = modify_parameters(model_params, parameters, user_config, start_year_interp, end_year_interp)
+    model_params = modify_parameters(model_params, parameters, user_config, start_year_interp)
     WriteCsv(user_config=user_config).write(model_params, output_filepath, default_values)
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 7:
-        print("Usage: python create_modelrun.py <input_filepath> <output_filepath> <sample_filepath> <user_config> <start_year_interp> <end_year_interp>")
+    if len(sys.argv) != 6:
+        print("Usage: python create_modelrun.py <input_filepath> <output_filepath> <sample_filepath> <user_config> <start_year_interp>")
     else:
         with open(sys.argv[3], 'r') as csv_file:
             sample = list(csv.DictReader(csv_file))
@@ -331,4 +322,4 @@ if __name__ == "__main__":
         with open(sys.argv[4], "r") as f:
             user_config = _read_file(f, ending)
 
-        main(sys.argv[1], sys.argv[2], sample, user_config, int(sys.argv[5]), int(sys.argv[6]))
+        main(sys.argv[1], sys.argv[2], sample, user_config, int(sys.argv[5]))

@@ -22,12 +22,13 @@ rule create_model_data:
     params:
         folder=directory("results/{scenario}/model_{model_run}/data"),
         start_year=config['start_year'],
+        end_year=config['end_year'],
     conda: "../envs/otoole.yaml"
     group: "gen_lp"
     output:
         csvs = expand("results/{{scenario}}/model_{{model_run}}/data/{x}.csv", x=INPUT_FILES)
     shell:
-        "python workflow/scripts/create_modelrun.py {input.csv} {params.folder} {input.sample} {input.config} {params.start_year}"
+        "python workflow/scripts/create_modelrun.py {input.csv} {params.folder} {input.sample} {input.config} {params.start_year} {params.end_year}"
 
 rule copy_otoole_config:
     message: "Copying otoole configuration file for '{params.folder}'"
