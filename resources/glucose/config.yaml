@@ -2,36 +2,25 @@
 
 # Populate the scenarios.csv file with a list of scenario names
 # and path (description optional) to the model csv data
-scenarios: resources/glucose/scenarios_glucose_2024.csv
-# scenarios: config/scenarios.csv
+scenarios: resources/glucose/scenarios_glucose.csv
 
 # Tell the workflow which model results to plot
 results: resources/glucose/results.csv
-# results: config/results.csv
 
 # Filetype options: 'csv' or 'parquet' or 'feather'
 filetype: csv
 
 # Define the uncertain parameters used to define the Monte Carlo sample
-parameters: resources/glucose/parameters_glucose_2024_all.csv
-# parameters: config/parameters.csv
-
-# Define a start and end year for interpolation of the parameters
-start_year: 2025
-end_year: 2050
+parameters: resources/glucose/parameters_glucose.csv
 
 # Path to the OSeMOSYS model file
 model_file: resources/glucose/osemosys_fast.txt
 
 # Choose a solver, choices: 'cbc' or 'gurobi' or 'cplex'
-solver: gurobi
+solver: cbc
 
-# Choose a sampling method: 'Morris' or 'LHS' or 'Sobol'
-method: Sobol
-
-# Sampling - how large should the sample be? 
-# [NB: for Sobol, the nr of replicates will result in [(2^replicates)*(nr parameters +2)] nr of runs]
-replicates: 5
+# Sampling - how large should the sample be?
+replicates: 2
 
 # Scale Elementary Effects (True/False)
 scale: False
