@@ -231,7 +231,7 @@ def apply_interploted_values(
         If index not found in original dataframe 
     """
     try:
-        model_params[name].loc[tuple(index + [first_year]):tuple(index + [end_year]), 'VALUE'] = interpolated_values[0]
+        model_params[name].loc[tuple(index), 'VALUE'] = interpolated_values[0]
     except ValueError as ex:
         logger.error(f"Error raised in parameter {name} by index {index}")
         raise ValueError(ex)
