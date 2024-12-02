@@ -17,7 +17,7 @@ parameters: resources/glucose/parameters_glucose_2024_all.csv
 # parameters: config/parameters.csv
 
 # Define a start and end year for interpolation of the parameters
-start_year: 2025
+start_year: 2020
 end_year: 2050
 
 # Path to the OSeMOSYS model file
@@ -31,7 +31,7 @@ method: Sobol
 
 # Sampling - how large should the sample be? 
 # [NB: for Sobol, the nr of replicates will result in [(2^replicates)*(nr parameters +2)] nr of runs]
-replicates: 5
+replicates: 6
 
 # Scale Elementary Effects (True/False)
 scale: False
